@@ -39,7 +39,7 @@ if($previousRate < $rate) {
 $difference = $previousRate - $rate;
 $difference = str_replace('-', '', $difference);
 
-$url = " ";
+$url = "";
 $title = "";
 $authorName = "Current: $".$rate;
 $description = "The current rate has $fluctuation by $". $difference;
