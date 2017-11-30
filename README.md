@@ -1,4 +1,4 @@
-# Preev-Discord
+# BTCHook
 
 Setup:
 1. Upload Files to host
