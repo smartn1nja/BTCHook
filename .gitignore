@@ -55,3 +55,4 @@ $RECYCLE.BIN/
 error_log
 index.php
 config.php
+tests.php

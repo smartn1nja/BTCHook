@@ -1,14 +1,13 @@
 <?php
-
 // GENERAL CONFIGURATION
-$webhook = " ";
+$webhook = "";
 $apiURL = "https://api.coindesk.com/v1/bpi/currentprice/USD.json";
 
 // DATABASE CONFIGURATION
-define("DBHOST", " ");
-define("DBUSER", " ");
-define("DBPASS", " ");
-define("DATABS", " ");
+define("DBHOST", "m");
+define("DBUSER", "");
+define("DBPASS", "");
+define("DATABS", "");
 
 function getCurlData($url) {
 	$curl = curl_init();
@@ -21,7 +20,7 @@ function getCurlData($url) {
 	return $curlData;
 }
 
-function webhook($url, $linkUrl, $linkTitle, $linkDesc, $embedColor, $botName, $botAvatar, $content) {
+function webhook($webhook, $url, $title, $description, $embedColor, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content) {
   if(isset($embedColor)) {
     if(strpos($embedColor, "#") > -1) {
       $c=str_replace("#", "", $embedColor);
@@ -32,12 +31,16 @@ function webhook($url, $linkUrl, $linkTitle, $linkDesc, $embedColor, $botName, $
   } else {
     $color = 0;
   }
+
   $sys["content"] = $content;
   $sys["username"] = $botName;
   $sys["avatar_url"] = $botAvatar;
-  $e = array("url" => $linkUrl, "title" => $linkTitle, "description" => $linkDesc, "color" => $color);
-  $sys["embeds"] = array(0 => $e);
-  $curl = curl_init($url);
+  $footer = array("icon_url" => $footerIcon, "text" => $footerText);
+  $author = array("url" => "", "name" => "$authorName", "icon_url" => $iconUrl);
+  $embed = array("url" => $url, "title" => $title, "description" => $description, "color" => $color, "footer" => $footer, "author" => $author);
+  $sys["embeds"] = array(0 => $embed);
+
+  $curl = curl_init($webhook);
   curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($sys));
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

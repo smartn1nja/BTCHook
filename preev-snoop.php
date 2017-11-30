@@ -1,14 +1,15 @@
 <?php
-session_start();
+header('Content-Type: application/json');
+
 include 'config.php';
 $lookup = getCurlData($apiURL);
 $obj = json_decode($lookup);
 $rate = $obj->bpi->USD->rate;
 $rate = str_replace(',', '', $rate);
 $rate = round($rate, 2);
-$update = $obj->time->updateduk;
+$timestamp = $obj->time->updateduk;
 
-#	DO NOT EDIT
+// 	DO NOT EDIT
 
 $stmt = $conn->prepare('INSERT INTO rates (`rate`) VALUES (?)');
 $stmt->bind_param("s", $rate);
@@ -23,20 +24,29 @@ $stmt3->bind_param("i", $lastID);
 $stmt3->execute();
 $stmt3->bind_result($row);
 while ($stmt3->fetch()) {
-  $lastRate = $row;
+  $previousRate = $row;
 }
 
-$linkUrl = "http://preev.com/btc/usd";
-$linkDesc = "Last updated ".$update;
-
-if($rate > $lastRate ){
-	$linkTitle = ":arrow_up_small: Current: $". $rate;
-	$embedColor = "#64dd17";
+if($previousRate > $rate) {
+	$embedColor = "#43b581";
+	$iconUrl = "https://cdn.discordapp.com/emojis/347774024425799680.png";
+	$fluctuation = "**increased**";
 } else {
-	$linkTitle = ":arrow_down_small: Current: $". $rate;
-	$embedColor = "#c62828";
+	$embedColor = "#f04947";
+	$iconUrl = "https://cdn.discordapp.com/emojis/347774023997849612.png";
+	$fluctuation = "**decreased**";
 }
+$difference = $previousRate - $rate;
+
+$url = "http://preev.com";
+$title = "";
+$authorName = "Current: $".$rate;
+$description = "The current rate has $fluctuation by ". $difference;
 $botName = "MEGALUL";
-$botAvatar = "https://i.rexsdev.com/xVQzt-DdwRM-yic17.png";
-$content = null;
-webhook($webhook, $linkUrl, $linkTitle, $linkDesc, $embedColor, $botName, $botAvatar, $content);
+$botAvatar = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
+$footerIcon = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
+$content = "";
+
+$footerText = "Updated: $timestamp";
+
+webhook($webhook, $url, $title, $description, $embedColor, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content);
