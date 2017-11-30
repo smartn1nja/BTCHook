@@ -1,4 +1,4 @@
-
+<?php
 function getCurlData($url) {
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $url);
@@ -41,3 +41,4 @@ $conn = new mysqli(DBHOST, DBUSER, DBPASS, DATABS);
 if ($conn->connect_error) {
     die("Oop's, Somethings broken!");
 }
+?>
