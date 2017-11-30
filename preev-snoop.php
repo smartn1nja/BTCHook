@@ -27,7 +27,7 @@ while ($stmt3->fetch()) {
   $previousRate = $row;
 }
 
-if($previousRate > $rate) {
+if($previousRate < $rate) {
 	$embedColor = "#43b581";
 	$iconUrl = "https://cdn.discordapp.com/emojis/347774024425799680.png";
 	$fluctuation = "**increased**";
@@ -37,11 +37,12 @@ if($previousRate > $rate) {
 	$fluctuation = "**decreased**";
 }
 $difference = $previousRate - $rate;
+$difference = str_replace('-', '', $difference);
 
-$url = "http://preev.com";
+$url = " ";
 $title = "";
 $authorName = "Current: $".$rate;
-$description = "The current rate has $fluctuation by ". $difference;
+$description = "The current rate has $fluctuation by $". $difference;
 $botName = "MEGALUL";
 $botAvatar = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
 $footerIcon = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
