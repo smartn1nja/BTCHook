@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 
 include 'config.php';
+include 'functions.php';
 $lookup = getCurlData($apiURL);
 $obj = json_decode($lookup);
 $rate = $obj->bpi->USD->rate;
