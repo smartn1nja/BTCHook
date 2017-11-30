@@ -19,11 +19,11 @@ $stmt->close();
 
 $lastID = ($lastID - 1);
 
-$stmt3 = $conn->prepare("SELECT rate FROM rates WHERE `id` = ? ORDER BY `id` DESC LIMIT 1");
-$stmt3->bind_param("i", $lastID);
-$stmt3->execute();
-$stmt3->bind_result($row);
-while ($stmt3->fetch()) {
+$stmt2 = $conn->prepare("SELECT rate FROM rates WHERE `id` = ? ORDER BY `id` DESC LIMIT 1");
+$stmt2->bind_param("i", $lastID);
+$stmt2->execute();
+$stmt2->bind_result($row);
+while ($stmt2->fetch()) {
   $previousRate = $row;
 }
 
