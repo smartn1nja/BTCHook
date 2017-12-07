@@ -3,12 +3,11 @@ header('Content-Type: application/json');
 
 include 'config.php';
 include 'functions.php';
-$lookup = getCurlData($apiURL);
+$lookup = getCurlData($config['apiUrl']);
 $obj = json_decode($lookup);
-$rate = $obj->bpi->USD->rate;
-$rate = str_replace(',', '', $rate);
+$rate = $obj[0]->price;
 $rate = round($rate, 2);
-$timestamp = $obj->time->updateduk;
+$timestamp = $obj[0]->time;
 
 // 	DO NOT EDIT
 
@@ -29,12 +28,12 @@ while ($stmt2->fetch()) {
 }
 
 if($previousRate < $rate) {
-	$embedColor = "#43b581";
-	$iconUrl = "https://cdn.discordapp.com/emojis/347774024425799680.png";
+	$embedColor = $config['increaseColor'];
+	$iconUrl = $config['increaseIcon'];
 	$fluctuation = "**increased**";
 } else {
-	$embedColor = "#f04947";
-	$iconUrl = "https://cdn.discordapp.com/emojis/347774023997849612.png";
+	$embedColor = $config['decreaseColor'];
+	$iconUrl = $config['decreaseIcon'];
 	$fluctuation = "**decreased**";
 }
 $difference = $previousRate - $rate;
@@ -43,12 +42,12 @@ $difference = str_replace('-', '', $difference);
 $url = "";
 $title = "";
 $authorName = "Current: $".$rate;
-$description = "The current rate has $fluctuation by $". $difference;
-$botName = "MEGALUL";
-$botAvatar = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
-$footerIcon = "https://cdn.discordapp.com/attachments/236152872314732544/385169469317578762/megalul.jpg";
+$description = "The current rate has $fluctuation by $". round($difference, 2);
+$botName = $config['botName'];
+$botAvatar = $config['botAvatar'];
+$footerIcon = $config['botFooter'];
 $content = "";
 
-$footerText = "Updated: $timestamp";
+$footerText = "Coming from GDAX.";
 
-webhook($webhook, $url, $title, $description, $embedColor, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content);
+webhook($config['webhookUrl'], $url, $title, $description, $embedColor, $timestamp, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content);

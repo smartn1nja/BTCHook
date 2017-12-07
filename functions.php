@@ -10,7 +10,7 @@ function getCurlData($url) {
 	return $curlData;
 }
 
-function webhook($webhook, $url, $title, $description, $embedColor, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content) {
+function webhook($webhook, $url, $title, $description, $embedColor, $timestamp, $footerIcon, $footerText, $authorName, $iconUrl, $botName, $botAvatar, $content) {
   if(isset($embedColor)) {
     if(strpos($embedColor, "#") > -1) {
       $c=str_replace("#", "", $embedColor);
@@ -27,7 +27,7 @@ function webhook($webhook, $url, $title, $description, $embedColor, $footerIcon,
   $sys["avatar_url"] = $botAvatar;
   $footer = array("icon_url" => $footerIcon, "text" => $footerText);
   $author = array("url" => "", "name" => "$authorName", "icon_url" => $iconUrl);
-  $embed = array("url" => $url, "title" => $title, "description" => $description, "color" => $color, "footer" => $footer, "author" => $author);
+  $embed = array("url" => $url, "title" => $title, "description" => $description, "color" => $color, "timestamp" => $timestamp, "footer" => $footer, "author" => $author);
   $sys["embeds"] = array(0 => $embed);
 
   $curl = curl_init($webhook);
@@ -37,7 +37,7 @@ function webhook($webhook, $url, $title, $description, $embedColor, $footerIcon,
   curl_exec($curl);
 }
 
-$conn = new mysqli(DBHOST, DBUSER, DBPASS, DATABS);
+$conn = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbTable']);
 if ($conn->connect_error) {
     die("Oop's, Somethings broken!");
 }
