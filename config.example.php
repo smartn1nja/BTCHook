@@ -1,6 +1,6 @@
 <?php
 // GENERAL CONFIGURATION
-$config['webhookUrl'] = "https://discordapp.com/api/webhooks/385546436005330945/sWnie_Gdg7nlGodw6nBhtj0SgqjEWhMVUiP1_Q0u9MFJD-JEP6Kj4Po2BRo-zE03ZQQE";
+$config['webhookUrl'] = "YOUR_WEBHOOK_HERE";
 $config['apiUrl'] = "https://api.gdax.com/products/BTC-USD/trades";
 
 // BOT CONFIG
@@ -18,4 +18,4 @@ $config['decreaseColor'] = "#f04947";
 $config['dbHost'] = "";
 $config['dbUser'] = "";
 $config['dbPass'] = "";
-$config['dbTable'] = "";
+$config['dbDatabase'] = "";
