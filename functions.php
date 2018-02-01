@@ -37,7 +37,7 @@ function webhook($webhook, $url, $title, $description, $embedColor, $timestamp, 
   curl_exec($curl);
 }
 
-$conn = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbTable']);
+$conn = new mysqli($config['dbHost'], $config['dbUser'], $config['dbPass'], $config['dbDatabase']);
 if ($conn->connect_error) {
     die("Oop's, Somethings broken!");
 }
